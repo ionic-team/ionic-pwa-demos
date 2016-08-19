@@ -1,0 +1,60 @@
+{
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
+    "@angular/forms": "^0.2.0",
+    "@angular/router": "2.0.0-rc.2",
+    "es6-shim": "^0.35.0",
+    "ionic-angular": "2.0.0-beta.11",
+    "ionic-native": "1.3.0",
+    "ionicons": "3.0.0",
+    "localforage": "^1.4.2",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "^5.0.0-beta.9",
+    "zone.js": "^0.6.12"
+  },
+  "devDependencies": {
+    "del": "2.2.0",
+    "gulp": "3.9.1",
+    "gulp-watch": "4.3.5",
+    "ionic-gulp-browserify-typescript": "1.0.0",
+    "ionic-gulp-fonts-copy": "^1.0.0",
+    "ionic-gulp-html-copy": "^1.0.0",
+    "ionic-gulp-sass-build": "^1.0.0",
+    "ionic-gulp-scripts-copy": "^2.0.0",
+    "run-sequence": "1.1.5"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-device",
+    "cordova-plugin-console",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-statusbar",
+    "ionic-plugin-keyboard",
+    {
+      "locator": "https://github.com/oauth-io/oauth-phonegap",
+      "id": "com.oauthio.plugins.oauthio"
+    },
+    "cordova-plugin-x-toast",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+      "id": "cordova-plugin-insomnia"
+    },
+    "cordova-plugin-apprate",
+    "cordova-plugin-x-socialsharing"
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    {
+      "platform": "ios",
+      "version": "",
+      "locator": "ios"
+    }
+  ],
+  "name": "Soundel",
+  "description": "Soundel: An Ionic project"
+}

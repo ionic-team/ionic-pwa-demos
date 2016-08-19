@@ -1,0 +1,48 @@
+<!--
+  Generated template for the SettingsPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+<ion-navbar primary>
+  <ion-title>Settings</ion-title>
+</ion-navbar>
+</ion-header>
+
+<ion-content class="settings">
+  <ion-list no-lines>
+    <button (click)="changeDefaultSearch()" ion-item>
+      <button clear item-left>
+        <ion-icon name="search"></ion-icon>
+      </button> Default Search: {{defaultSearch}}
+    </button>
+    <!--<ion-item>
+      <button clear item-left>
+        <ion-icon name="sunny"></ion-icon>
+      </button> 
+      <ion-label>Keep screen awake</ion-label>
+      <ion-toggle secondary (change)="screenAwake()" checked="false" [(ngModel)]="screenStatus"></ion-toggle>
+    </ion-item>
+    <button (click)="rateApp()" ion-item>
+      <button clear item-left>
+        <ion-icon name="happy"></ion-icon>
+      </button>
+      Rate this app
+    </button>-->
+    <button (click)="getMobileApp()" ion-item>
+      <button clear item-left>
+        <ion-icon name="appstore"></ion-icon>
+      </button>
+      Get Android Version!
+    </button>
+    <button (click)="github()" ion-item>
+      <button clear item-left>
+        <ion-icon name="code"></ion-icon>
+      </button>
+      Visit on Github!
+    </button>
+  </ion-list>
+  
+  <img id="scPNG" src="sc.png">
+</ion-content>
