@@ -1,0 +1,13 @@
+{
+  "name": "Hodi",
+  "short_name": "Hodi",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "icon.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#76c2af",
+  "theme_color": "#76c2af"
+}
