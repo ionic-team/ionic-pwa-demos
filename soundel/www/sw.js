@@ -60,7 +60,6 @@ self.addEventListener('activate', function (event) {
 // Other approaches, like selectively caching based on response headers or only caching
 // responses served from a specific domain, might be more appropriate for those use cases.
 self.addEventListener('fetch', function (event) {
-    console.log('Handling fetch event for', event.request.url);
 
     event.respondWith(
         caches.open(CURRENT_CACHES['read-through']).then(function (cache) {
@@ -68,7 +67,6 @@ self.addEventListener('fetch', function (event) {
                 if (response) {
                     // If there is an entry in the cache for event.request, then response will be defined
                     // and we can just return it.
-                    console.log(' Found response in cache:', response);
 
                     return response;
                 }
@@ -82,12 +80,10 @@ self.addEventListener('fetch', function (event) {
                 // Both fetch() and cache.put() "consume" the request, so we need to make a copy.
                 // (see https://fetch.spec.whatwg.org/#dom-request-clone)
                 return fetch(event.request.clone()).then(function (response) {
-                    console.log('  Response for %s from network is: %O',
-                        event.request.url, response);
 
                     // Optional: add in extra conditions here, e.g. response.type == 'basic' to only cache
                     // responses from the same domain. See https://fetch.spec.whatwg.org/#concept-response-type
-                    if (response.status < 400 && event.request.url.substring('https://api.soundcloud.com/tracks') > -1) {
+                    if (response.status < 400 && response.type === 'basic') {
                         // This avoids caching responses that we know are errors (i.e. HTTP status code of 4xx or 5xx).
                         // One limitation is that, for non-CORS requests, we get back a filtered opaque response
                         // (https://fetch.spec.whatwg.org/#concept-filtered-response-opaque) which will always have a
