@@ -1,0 +1,57 @@
+import { NavController } from './nav-controller';
+/**
+ * @name NavPush
+ * @description
+ * Directive to declaratively push a new page to the current nav
+ * stack.
+ *
+ * @usage
+ * ```html
+ * <button [navPush]="pushPage"></button>
+ * ```
+ *
+ * To specify parameters you can use array syntax or the `navParams`
+ * property:
+ *
+ * ```html
+ * <button [navPush]="pushPage" [navParams]="params">Go</button>
+ * ```
+ *
+ * Where `pushPage` and `params` are specified in your component,
+ * and `pushPage` contains a reference to a
+ * [@Page component](../../../config/Page/):
+ *
+ * ```ts
+ * import { LoginPage } from './login';
+ *
+ * @Component({
+ *   template: `<button [navPush]="pushPage" [navParams]="params">Go</button>`
+ * })
+ * class MyPage {
+ *   constructor(){
+ *     this.pushPage = LoginPage;
+ *     this.params = { id: 42 };
+ *   }
+ * }
+ * ```
+ *
+ * @demo /docs/v2/demos/navigation/
+ * @see {@link /docs/v2/components#navigation Navigation Component Docs}
+ * @see {@link ../NavPop NavPop API Docs}
+ *
+ */
+export declare class NavPush {
+    private _nav;
+    /**
+     * @input {Page} The Page to push onto the Nav.
+     */
+    navPush: any[] | string;
+    /**
+     * @input {any} Parameters to pass to the page.
+     */
+    navParams: {
+        [k: string]: any;
+    };
+    constructor(_nav: NavController);
+    onClick(): boolean;
+}

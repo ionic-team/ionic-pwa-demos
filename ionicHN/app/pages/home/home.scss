@@ -1,0 +1,17 @@
+.home {
+    ion-label {
+        white-space: normal;
+    }
+
+    #likeButton {
+        margin-bottom: -5px;
+        float: left;
+        margin-top: 5%;
+    }
+
+    #shareButton {
+        float: right;
+    }
+    
+    translateZ(0, 0, 0);
+}

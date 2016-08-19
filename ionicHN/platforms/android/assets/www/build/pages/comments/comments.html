@@ -1,0 +1,23 @@
+<!--
+  Generated template for the CommentsPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar primary>
+    <ion-title>Comments</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="comments">
+  <ion-list>
+    <ion-item *ngFor="let comment of comments">
+      <h2>{{comment.by}}</h2>
+      <p [innerHtml]="comment.text"></p>
+    </ion-item>
+  </ion-list>
+</ion-content>

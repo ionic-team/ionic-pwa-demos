@@ -1,0 +1,9 @@
+{
+  "baz": "poop",
+  "qux": {
+    "fart": false,
+    "smell": {
+      "good": true
+    }
+  }
+}
