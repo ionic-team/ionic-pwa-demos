@@ -24,7 +24,7 @@
 // cache, then increment the CACHE_VERSION value. It will kick off the service worker update
 // flow and the old cache(s) will be purged as part of the activate event handler when the
 // updated service worker is activated.
-var CACHE_VERSION = 3;
+var CACHE_VERSION = 4;
 var CURRENT_CACHES = {
     'read-through': 'read-through-cache-v' + CACHE_VERSION
 };
@@ -104,7 +104,7 @@ self.addEventListener('fetch', function (event) {
                 // It will return a normal response object that has the appropriate error code set.
                 console.error('  Read-through caching failed:', error);
 
-                throw error;
+                //throw error;
             });
         })
     );
