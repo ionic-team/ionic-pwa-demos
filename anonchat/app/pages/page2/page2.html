@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar primary>
+    <ion-title>AnonChat</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list no-lines>
+    <ion-item>
+      <ion-icon name="pulse" item-left></ion-icon>
+      <ion-label>Vibrate</ion-label>
+      <ion-toggle [ngModel]="checked" (ngModelChange)="noVibrate($event)"></ion-toggle>
+    </ion-item>
+    <button (click)="share()" ion-item>
+      <ion-icon name="share" item-left></ion-icon>
+      Share this app!
+    </button>
+  </ion-list>
+
+</ion-content>

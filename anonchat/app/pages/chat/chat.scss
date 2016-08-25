@@ -1,0 +1,44 @@
+.chat {
+
+    ion-avatar {
+        border-radius: 50%;
+    }
+
+    ion-label {
+        white-space: normal;
+    }
+
+    scroll-content {
+        background-color: #e6e6e6;
+    }
+
+    ion-list {
+        margin-top: 2rem;
+        padding: 1rem;
+    }
+
+    ion-item {
+        border-radius: 20px;
+    }
+
+    .localMessage {
+        width: 52%;
+        margin-bottom: 2rem
+    }
+
+    .remoteMessage {
+        float: right;
+        width: 52%;
+        margin-bottom: 2rem;
+    }
+
+    scroll-content {
+        margin-bottom: 5rem;
+    }
+
+}
+
+#chatInputBar {
+    position: absolute;
+    bottom: 0px;
+}
