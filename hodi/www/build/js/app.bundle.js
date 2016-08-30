@@ -68,18 +68,25 @@ var page1_1 = require('../page1/page1');
   Ionic pages and navigation.
 */
 var LoginPage = (function () {
-    function LoginPage(navCtrl, af, toastCtrl) {
+    function LoginPage(navCtrl, af, toastCtrl, loadingCtrl) {
         this.navCtrl = navCtrl;
         this.af = af;
         this.toastCtrl = toastCtrl;
+        this.loadingCtrl = loadingCtrl;
     }
     LoginPage.prototype.ionViewDidEnter = function () {
         var _this = this;
         this.af.auth.subscribe(function (auth) {
+            var loading = _this.loadingCtrl.create({
+                content: 'Authenticating...'
+            });
+            loading.present();
             sessionStorage.setItem('userPic', auth.auth.photoURL);
             sessionStorage.setItem('userEmail', auth.auth.email);
             _this.navCtrl.setRoot(page1_1.Page1, {}, {
                 animate: true
+            }).then(function () {
+                loading.dismiss();
             });
         }, function (err) {
             var toast = _this.toastCtrl.create({
@@ -96,7 +103,7 @@ var LoginPage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/login/login.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, angularfire2_1.AngularFire, ionic_angular_1.ToastController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, angularfire2_1.AngularFire, ionic_angular_1.ToastController, ionic_angular_1.LoadingController])
     ], LoginPage);
     return LoginPage;
 }());

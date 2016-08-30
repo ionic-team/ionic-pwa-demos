@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular';
 
 import { AngularFire } from 'angularfire2';
 import { Page1 } from '../page1/page1';
@@ -19,15 +19,22 @@ export class LoginPage {
   constructor(
     private navCtrl: NavController,
     private af: AngularFire,
-    private toastCtrl: ToastController) {}
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController) {}
 
   ionViewDidEnter() {
     this.af.auth.subscribe(
       auth => {
+        let loading = this.loadingCtrl.create({
+          content: 'Authenticating...'
+        });
+        loading.present();
         sessionStorage.setItem('userPic', auth.auth.photoURL);
         sessionStorage.setItem('userEmail', auth.auth.email);
         this.navCtrl.setRoot(Page1, {}, {
           animate: true
+        }).then(() => {
+          loading.dismiss();
         });
       },
       err => {

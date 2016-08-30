@@ -104,7 +104,7 @@ self.addEventListener('fetch', function (event) {
                 // It will return a normal response object that has the appropriate error code set.
                 console.error('  Read-through caching failed:', error);
 
-                //throw error;
+                throw error;
             });
         })
     );
