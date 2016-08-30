@@ -1,3 +1,5 @@
 .show-stories {
-  translateZ(0, 0, 0);
+    ion-item-sliding {
+        contain: paint layout;
+    }
 }

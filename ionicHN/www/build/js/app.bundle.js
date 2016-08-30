@@ -137,7 +137,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
 var stories_1 = require('../../providers/stories/stories');
 var comments_1 = require('../../pages/comments/comments');
 var unixDate_1 = require('../../pipes/unixDate');
@@ -234,7 +233,7 @@ var AskStoriesPage = (function () {
         this.previousIndex = newIndex;
     };
     AskStoriesPage.prototype.share = function (url) {
-        ionic_native_1.SocialSharing.share('Check out this cool article!', null, null, url);
+        window.open("http://twitter.com/share?text=Check out this cool article I found on ionicHN!&url=" + url + "&hashtags=ionicHN");
     };
     AskStoriesPage.prototype.searchItems = function (event) {
         this.stories = this.storiesRetreived;
@@ -257,7 +256,7 @@ var AskStoriesPage = (function () {
 }());
 exports.AskStoriesPage = AskStoriesPage;
 
-},{"../../pages/comments/comments":4,"../../pipes/unixDate":7,"../../providers/stories/stories":8,"@angular/core":156,"ionic-angular":470,"ionic-native":497}],4:[function(require,module,exports){
+},{"../../pages/comments/comments":4,"../../pipes/unixDate":7,"../../providers/stories/stories":8,"@angular/core":156,"ionic-angular":470}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -321,48 +320,54 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
 var stories_1 = require('../../providers/stories/stories');
 var comments_1 = require('../../pages/comments/comments');
 var unixDate_1 = require('../../pipes/unixDate');
 var HomePage = (function () {
-    function HomePage(nav, storiesService, loadCtrl, alertCtrl) {
+    function HomePage(nav, storiesService, loadCtrl, alertCtrl, actionCtrl) {
         this.nav = nav;
         this.storiesService = storiesService;
         this.loadCtrl = loadCtrl;
         this.alertCtrl = alertCtrl;
+        this.actionCtrl = actionCtrl;
         this.stories = [];
     }
     HomePage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        var loading = this.loadCtrl.create({
-            content: 'Getting Stories...'
-        });
-        loading.present().then(function () {
-            _this.storiesService.getStories()
-                .subscribe(function (data) {
-                _this.storyIDs = data;
-                _this.previousIndex = _this.storyIDs.length - 20;
-                var _loop_1 = function(i) {
-                    var id = data[i];
-                    _this.storiesService.getStory(data[i])
-                        .subscribe(function (data) {
-                        _this.stories.push({ data: data, id: id });
-                        loading.dismiss();
-                        _this.storiesRetreived = _this.stories;
-                        sessionStorage.setItem('loaded', 'true');
-                    }, function (error) {
-                        loading.dismiss();
-                    });
-                };
-                for (var i = 0; i < 20; i++) {
-                    _loop_1(i);
-                }
-            }, function (error) {
-                console.log(error);
-                loading.dismiss();
+        try {
+            var loading_1 = this.loadCtrl.create({
+                content: 'Getting Stories...'
             });
-        });
+            loading_1.present().then(function () {
+                _this.storiesService.getStories()
+                    .subscribe(function (data) {
+                    _this.storyIDs = data;
+                    _this.previousIndex = _this.storyIDs.length - 20;
+                    var _loop_1 = function(i) {
+                        var id = data[i];
+                        _this.storiesService.getStory(data[i])
+                            .subscribe(function (data) {
+                            _this.stories.push({ data: data, id: id });
+                            _this.storiesRetreived = _this.stories;
+                            sessionStorage.setItem('loaded', 'true');
+                        }, function (error) {
+                            loading_1.dismiss();
+                        }, function () {
+                            loading_1.dismiss();
+                        });
+                    };
+                    for (var i = 0; i < 20; i++) {
+                        _loop_1(i);
+                    }
+                }, function (error) {
+                    console.log(error);
+                    loading_1.dismiss();
+                });
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
     };
     HomePage.prototype.fillStories = function () {
         var _this = this;
@@ -389,11 +394,9 @@ var HomePage = (function () {
         });
     };
     HomePage.prototype.getComments = function (data) {
-        console.log(data);
         this.nav.push(comments_1.CommentsPage, { data: data });
     };
     HomePage.prototype.open = function (url) {
-        ;
         window.open(url);
     };
     HomePage.prototype.doInfinite = function (infiniteScroll) {
@@ -416,7 +419,7 @@ var HomePage = (function () {
         this.previousIndex = newIndex;
     };
     HomePage.prototype.share = function (url) {
-        ionic_native_1.SocialSharing.share('Check out this cool article!', null, null, url);
+        window.open("http://twitter.com/share?text=Check out this cool article I found on ionicHN!&url=" + url + "&hashtags=ionicHN");
     };
     HomePage.prototype.searchItems = function (event) {
         this.stories = this.storiesRetreived;
@@ -433,13 +436,13 @@ var HomePage = (function () {
             providers: [stories_1.StoriesService],
             pipes: [unixDate_1.UnixDate]
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, stories_1.StoriesService, ionic_angular_1.LoadingController, ionic_angular_1.AlertController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, stories_1.StoriesService, ionic_angular_1.LoadingController, ionic_angular_1.AlertController, ionic_angular_1.ActionSheetController])
     ], HomePage);
     return HomePage;
 }());
 exports.HomePage = HomePage;
 
-},{"../../pages/comments/comments":4,"../../pipes/unixDate":7,"../../providers/stories/stories":8,"@angular/core":156,"ionic-angular":470,"ionic-native":497}],6:[function(require,module,exports){
+},{"../../pages/comments/comments":4,"../../pipes/unixDate":7,"../../providers/stories/stories":8,"@angular/core":156,"ionic-angular":470}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -452,7 +455,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
 var stories_1 = require('../../providers/stories/stories');
 var comments_1 = require('../../pages/comments/comments');
 var unixDate_1 = require('../../pipes/unixDate');
@@ -549,7 +551,7 @@ var ShowStoriesPage = (function () {
         this.previousIndex = newIndex;
     };
     ShowStoriesPage.prototype.share = function (url) {
-        ionic_native_1.SocialSharing.share('Check out this cool article!', null, null, url);
+        window.open("http://twitter.com/share?text=Check out this cool article I found on ionicHN!&url=" + url + "&hashtags=ionicHN");
     };
     ShowStoriesPage.prototype.searchItems = function (event) {
         this.stories = this.storiesRetreived;
@@ -572,7 +574,7 @@ var ShowStoriesPage = (function () {
 }());
 exports.ShowStoriesPage = ShowStoriesPage;
 
-},{"../../pages/comments/comments":4,"../../pipes/unixDate":7,"../../providers/stories/stories":8,"@angular/core":156,"ionic-angular":470,"ionic-native":497}],7:[function(require,module,exports){
+},{"../../pages/comments/comments":4,"../../pipes/unixDate":7,"../../providers/stories/stories":8,"@angular/core":156,"ionic-angular":470}],7:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -51099,7 +51101,7 @@ exports.ActionSheet = ActionSheet;
  *
  * export class MyClass{
  *
- *  constructor(private actionSheetCtrl: ActionSheetController) {}
+ *  constructor(public actionSheetCtrl: ActionSheetController) {}
  *
  *  presentActionSheet() {
  *    let actionSheet = this.actionSheetCtrl.create({
@@ -53015,6 +53017,61 @@ var util_1 = require('../../util/util');
  * }
  * ```
  *
+ * @advanced
+ *
+ * Resizing the content
+ *
+ *
+ * ```ts
+ * @Component({
+ *   template: `
+ *     <ion-header>
+ *       <ion-navbar>
+ *         <ion-title>Main Navbar</ion-title>
+ *       </ion-navbar>
+ *       <ion-toolbar *ngIf="showToolbar">
+ *         <ion-title>Dynamic Toolbar</ion-title>
+ *       </ion-toolbar>
+ *     </ion-header>
+ *     <ion-content>
+ *       <button (click)="toggleToolbar()">Toggle Toolbar</button>
+ *     </ion-content>
+ * `})
+ *
+ * class E2EPage {
+ *   @ViewChild(Content) content: Content;
+ *   showToolbar: boolean = false;
+ *
+ *   toggleToolbar() {
+ *     this.showToolbar = !this.showToolbar;
+ *     this.content.resize();
+ *   }
+ * }
+ * ```
+ *
+ *
+ * Scroll to a specific position
+ *
+ * ```ts
+ * import { Component, ViewChild } from '@angular/core';
+ * import { Content } from 'ionic-angular';
+ *
+ * @Component({
+ *   template: `<ion-content>
+ *                <button (click)="scrollTo()">Down 500px</button>
+ *              </ion-content>`
+ * )}
+ * export class MyPage{
+ *   @ViewChild(Content) content: Content;
+ *
+ *   scrollTo() {
+ *     // set the scrollLeft to 0px, and scrollTop to 500px
+ *     // the scroll duration should take 200ms
+ *     this.content.scrollTo(0, 500, 200);
+ *   }
+ * }
+ * ```
+ *
  */
 var Content = (function (_super) {
     __extends(Content, _super);
@@ -53151,25 +53208,6 @@ var Content = (function (_super) {
     /**
      * Scroll to the specified position.
      *
-     * ```ts
-     * import { Component, ViewChild } from '@angular/core';
-     * import { Content } from 'ionic-angular';
-     *
-     * @Component({
-     *   template: `<ion-content>
-     *                <button (click)="scrollTo()">Down 500px</button>
-     *              </ion-content>`
-     * )}
-     * export class MyPage{
-     *   @ViewChild(Content) content: Content;
-     *
-     *   scrollTo() {
-     *     // set the scrollLeft to 0px, and scrollTop to 500px
-     *     // the scroll duration should take 200ms
-     *     this.content.scrollTo(0, 500, 200);
-     *   }
-     * }
-     * ```
      * @param {number} x  The x-value to scroll to.
      * @param {number} y  The y-value to scroll to.
      * @param {number} [duration]  Duration of the scroll animation in milliseconds. Defaults to `300`.
@@ -53182,23 +53220,6 @@ var Content = (function (_super) {
     /**
      * Scroll to the top of the content component.
      *
-     * ```ts
-     * import { Component, ViewChild } from '@angular/core';
-     * import { Content } from 'ionic-angular';
-     *
-     * @Component({
-     *   template: `<ion-content>
-     *                <button (click)="scrollToTop()">Scroll to top</button>
-     *              </ion-content>`
-     * )}
-     * export class MyPage{
-     *   @ViewChild(Content) content: Content;
-     *
-     *   scrollToTop() {
-     *     this.content.scrollToTop();
-     *   }
-     * }
-     * ```
      * @param {number} [duration]  Duration of the scroll animation in milliseconds. Defaults to `300`.
      * @returns {Promise} Returns a promise which is resolved when the scroll has completed.
      */
@@ -53340,33 +53361,6 @@ var Content = (function (_super) {
     /**
      * Tell the content to recalculate its dimensions. This should be called
      * after dynamically adding headers, footers, or tabs.
-     *
-     * ```ts
-     * @Component({
-     *   template: `
-     *     <ion-header>
-     *       <ion-navbar>
-     *         <ion-title>Main Navbar</ion-title>
-     *       </ion-navbar>
-     *       <ion-toolbar *ngIf="showToolbar">
-     *         <ion-title>Dynamic Toolbar</ion-title>
-     *       </ion-toolbar>
-     *     </ion-header>
-     *     <ion-content>
-     *       <button (click)="toggleToolbar()">Toggle Toolbar</button>
-     *     </ion-content>
-     * `})
-     *
-     * class E2EPage {
-     *   @ViewChild(Content) content: Content;
-     *   showToolbar: boolean = false;
-     *
-     *   toggleToolbar() {
-     *     this.showToolbar = !this.showToolbar;
-     *     this.content.resize();
-     *   }
-     * }
-     * ```
      *
      */
     Content.prototype.resize = function () {
@@ -56562,7 +56556,7 @@ var ItemSlidingGesture = (function (_super) {
         _super.call(this, list.getNativeElement(), {
             maxAngle: MAX_ATTACK_ANGLE,
             threshold: DRAG_THRESHOLD,
-            gesture: list.gestureCtrl.create('item-sliding', {
+            gesture: list._gestureCtrl.create('item-sliding', {
                 priority: -10 /* SlidingItem */,
             })
         });
@@ -57734,14 +57728,33 @@ var gesture_controller_1 = require('../../gestures/gesture-controller');
  *
  * @demo /docs/v2/demos/list/
  * @see {@link /docs/v2/components#lists List Component Docs}
+ * @advanced
+ *
+ * Enable the sliding items.
+ *
+ * ```ts
+ * import { Component, ViewChild } from '@angular/core';
+ * import { List } from 'ionic-angular';
+ *
+ * @Component({...})
+ * export class MyClass {
+ *   @ViewChild(List) list: List;
+ *
+ *   constructor() { }
+ *
+ *   stopSliding() {
+ *     this.list.enableSlidingItems(false);
+ *   }
+ * }
+ * ```
  *
  */
 var List = (function (_super) {
     __extends(List, _super);
-    function List(elementRef, _rendered, gestureCtrl) {
+    function List(elementRef, _rendered, _gestureCtrl) {
         _super.call(this, elementRef);
         this._rendered = _rendered;
-        this.gestureCtrl = gestureCtrl;
+        this._gestureCtrl = _gestureCtrl;
         this._enableSliding = true;
         this._containsSlidingItems = false;
     }
@@ -57753,24 +57766,7 @@ var List = (function (_super) {
     };
     Object.defineProperty(List.prototype, "sliding", {
         /**
-         * Enable the sliding items.
-         *
-         * ```ts
-         * import { Component, ViewChild } from '@angular/core';
-         * import { List } from 'ionic-angular';
-         *
-         * @Component({...})
-         * export class MyClass {
-         *   @ViewChild(List) list: List;
-         *
-         *   constructor() { }
-         *
-         *   stopSliding() {
-         *     this.list.enableSlidingItems(false);
-         *   }
-         * }
-         * ```
-         * @param {boolean} shouldEnable whether the item-sliding should be enabled or not
+         * @input {boolean} shouldEnable whether the item-sliding should be enabled or not
          */
         get: function () {
             return this._enableSliding;
@@ -57802,23 +57798,7 @@ var List = (function (_super) {
         }
     };
     /**
-     * Close the open sliding item.
-     *
-     * ```ts
-     * import { Component, ViewChild } from '@angular/core';
-     * import { List } from 'ionic-angular';
-     *
-     * @Component({...})
-     * export class MyClass {
-     *   @ViewChild(List) list: List;
-     *
-     *   constructor() { }
-     *
-     *   closeItems() {
-     *     this.list.closeSlidingItems();
-     *   }
-     * }
-     * ```
+     * Close any sliding items that are open.
      */
     List.prototype.closeSlidingItems = function () {
         this._slidingGesture && this._slidingGesture.closeOpened();
@@ -58360,20 +58340,20 @@ exports.MenuClose = MenuClose;
  * @Component({...})
  * export class MyPage {
  *
- *  constructor(private menu: MenuController) {
+ *  constructor(public menuCtrl: MenuController) {
  *
  *  }
  *
  *  openMenu() {
- *    this.menu.open();
+ *    this.menuCtrl.open();
  *  }
  *
  *  closeMenu() {
- *    this.menu.close();
+ *    this.menuCtrl.close();
  *  }
  *
  *  toggleMenu() {
- *    this.menu.toggle();
+ *    this.menuCtrl.toggle();
  *  }
  *
  * }
@@ -59177,10 +59157,10 @@ var gesture_controller_1 = require('../../gestures/gesture-controller');
  *
  * @Component({...})
  * export class MyPage {
- *  constructor(private menu: MenuController) {}
+ *  constructor(public menuCtrl: MenuController) {}
  *
  *  openMenu() {
- *    this.menu.open();
+ *    this.menuCtrl.open();
  *  }
  * }
  * ```
@@ -59907,7 +59887,7 @@ exports.Modal = Modal;
  * @Component(...)
  * class HomePage {
  *
- *  constructor(private modalCtrl: ModalController) {
+ *  constructor(public modalCtrl: ModalController) {
  *
  *  }
  *
@@ -59947,7 +59927,7 @@ exports.Modal = Modal;
  * @Component(...)
  * class HomePage {
  *
- *  constructor(private modalCtrl: ModalController) {
+ *  constructor(public modalCtrl: ModalController) {
  *
  *  }
  *
@@ -59969,7 +59949,7 @@ exports.Modal = Modal;
  * @Component(...)
  * class Profile {
  *
- *  constructor(private viewCtrl: ViewController) {
+ *  constructor(public viewCtrl: ViewController) {
  *
  *  }
  *
@@ -60149,6 +60129,13 @@ var NavControllerBase = (function (_super) {
                     // return a promise and resolve when the transition has completed
                     // get the leaving view which the _insert() already set
                     var leavingView = this.getByState(exports.STATE_INIT_LEAVE);
+                    if (!leavingView && this._isPortal) {
+                        // if we didn't find an active view, and this is a portal
+                        var activeNav = this._app.getActiveNav();
+                        if (activeNav) {
+                            leavingView = activeNav.getByState(exports.STATE_INIT_LEAVE);
+                        }
+                    }
                     // start the transition, fire resolve when done...
                     this._transition(enteringView, leavingView, opts, done);
                     return promise;
@@ -60175,6 +60162,13 @@ var NavControllerBase = (function (_super) {
         }
         // first see if there's an active view
         var view = this.getActive();
+        if (!view && this._isPortal) {
+            // if we didn't find an active view, and this is a portal
+            var activeNav = this._app.getActiveNav();
+            if (activeNav) {
+                view = activeNav.getActive();
+            }
+        }
         if (view) {
             // there's an active view, set that it's initialized to leave
             view.state = exports.STATE_INIT_LEAVE;
@@ -60272,6 +60266,16 @@ var NavControllerBase = (function (_super) {
             // to happen and the previously active view is going to animate out
             // get the view thats ready to enter
             var enteringView = this.getByState(exports.STATE_INIT_ENTER);
+            if (!enteringView && this._isPortal) {
+                // if we didn't find an active view, and this is a portal
+                var activeNav = this._app.getActiveNav();
+                if (activeNav) {
+                    enteringView = activeNav.last();
+                    if (enteringView) {
+                        enteringView.state = exports.STATE_INIT_ENTER;
+                    }
+                }
+            }
             if (!enteringView && !this._isPortal) {
                 // oh nos! no entering view to go to!
                 // if there is no previous view that would enter in this nav stack
@@ -61117,9 +61121,6 @@ var ctrlIds = -1;
 /**
  * @name NavController
  * @description
- * _For examples on the basic usage of NavController, check out the
- * [Navigation section](../../../../components/#navigation) of the Component
- * docs._
  *
  * NavController is the base class for navigation controller components like
  * [`Nav`](../Nav/) and [`Tab`](../../Tabs/Tab/). You use navigation controllers
@@ -61138,6 +61139,30 @@ var ctrlIds = -1;
  * specific NavController, most times you will inject and use a reference to the
  * nearest NavController to manipulate the navigation stack.
  *
+ * ## Basic usage
+ * The simplest way to navigate through an app is to create and initialize a new
+ * nav controller using the `<ion-nav>` component.  `ion-nav` extends the `NavController`
+ * class.
+ *
+ * ```typescript
+ * import { Component } from `@angular/core`;
+ * import { ionicBootstrap } from 'ionic-angular';
+ * import { StartPage } from './start-page';
+ *
+ * @Component(
+ *   template: `<ion-nav [root]="rootPage"></ion-nav>`
+ * })
+ * class MyApp {
+ *   // set the rootPage to the first page we want displayed
+ *   private rootPage: any = StartPage;
+ *
+ *   constructor(){
+ *   }
+ * }
+ *
+ * ionicBootstrap(MyApp);
+ * ```
+ *
  * ### Injecting NavController
  * Injecting NavController will always get you an instance of the nearest
  * NavController, regardless of whether it is a Tab or a Nav.
@@ -61152,16 +61177,48 @@ var ctrlIds = -1;
  * [Menu](../../Menu/Menu/) and [Tab](../../Tab/Tab/)).
  *
  * ```ts
+ *  import { NavController } from 'ionic-angular';
+ *
  *  class MyComponent {
- *    constructor(private nav: NavController) {
+ *    constructor(public navCtrl: NavController) {
  *
  *    }
  *  }
  * ```
  *
+ * ### Navigating from the Root component
+ * What if you want to control navigation from your root app component?
+ * You can't inject `NavController` because any components that are navigation
+ * controllers are _children_ of the root component so they aren't available
+ * to be injected.
  *
- * ## Page creation
- * Pages are created when they are added to the navigation stack.  For methods
+ * By adding a reference variable to the `ion-nav`, you can use `@ViewChild` to
+ * get an instance of the `Nav` component, which is a navigation controller
+ * (it extends `NavController`):
+ *
+ * ```typescript
+ *
+ * import { App, ViewChild } from '@angular/core';
+ * import { NavController } from 'ionic-angular';
+ *
+ * @App({
+ *    template: '<ion-nav #myNav [root]="rootPage"></ion-nav>'
+ * })
+ * export class MyApp {
+ *    @ViewChild('myNav') nav : NavController
+ *    private rootPage = TabsPage;
+ *
+ *    // Wait for the components in MyApp's template to be initialized
+ *    // In this case, we are waiting for the Nav with id="my-nav"
+ *    ngAfterViewInit() {
+ *       // Let's navigate from TabsPage to Page1
+ *       this.nav.push(Page1);
+ *    }
+ * }
+ * ```
+ *
+ * ## View creation
+ * Views are created when they are added to the navigation stack.  For methods
  * like [push()](#push), the NavController takes any component class that is
  * decorated with `@Component` as its first argument.  The NavController then
  * compiles that component, adds it to the app and animates it into view.
@@ -61171,6 +61228,94 @@ var ctrlIds = -1;
  * example).  They are destroyed when removed from the navigation stack (on
  * [pop()](#pop) or [setRoot()](#setRoot)).
  *
+ * ## Pushing a View
+ * To push a new view on to the navigation stack, use the `push` method.
+ * If the page has an [`<ion-navbar>`](../api/components/nav-bar/NavBar/),
+ * a back button will automatically be added to the pushed view.
+ *
+ * Data can also be passed to a view by passing an object to the `push` method.
+ * The pushed view can then receive the data by accessing it via the `NavParams`
+ * class.
+ *
+ * ```typescript
+ * import { Component } from '@angular/core';
+ * import { NavController } from 'ionic-angular';
+ * import { OtherPage } from './other-page';
+ * @Component({
+ *    template: `
+ *    <ion-header>
+ *      <ion-navbar>
+ *        <ion-title>Login</ion-title>
+ *      </ion-navbar>
+ *    </ion-header>
+ *
+ *    <ion-content>
+ *      <button (click)="pushPage()">
+ *        Go to OtherPage
+ *      </button>
+ *    </ion-content>
+ *    `
+ * })
+ * export class StartPage {
+ *   constructor(public navCtrl: NavController) {
+ *   }
+ *
+ *   pushPage(){
+ *     // push another page on to the navigation stack
+ *     // causing the nav controller to transition to the new page
+ *     // optional data can also be passed to the pushed page.
+ *     this.navCtrl.push(OtherPage, {
+ *       id: "123",
+ *       name: "Carl"
+ *     });
+ *   }
+ * }
+ *
+ * import { NavParams } from 'ionic-angular';
+ *
+ * @Component({
+ *   template: `
+ *   <ion-header>
+ *     <ion-navbar>
+ *       <ion-title>Other Page</ion-title>
+ *     </ion-navbar>
+ *   </ion-header>
+ *   <ion-content>I'm the other page!</ion-content>`
+ * })
+ * class OtherPage {
+ *   constructor(private navParams: NavParams) {
+ *      let id = navParams.get('id');
+ *      let name = navParams.get('name');
+ *   }
+ * }
+ * ```
+ *
+ * ## Removing a view
+ * To remove a view from the stack, use the `pop` method.
+ * Popping a view will transition to the previous view.
+ *
+ * ```ts
+ * import { Component } from '@angular/core';
+ * import { NavController } from 'ionic-angular';
+ *
+ * @Component({
+ *   template: `
+ *   <ion-header>
+ *     <ion-navbar>
+ *       <ion-title>Other Page</ion-title>
+ *     </ion-navbar>
+ *   </ion-header>
+ *   <ion-content>I'm the other page!</ion-content>`
+ * })
+ * class OtherPage {
+ *    constructor(private navController: NavController ){
+ *    }
+ *
+ *    popView(){
+ *      this.navController.pop();
+ *    }
+ * }
+ * ```
  *
  * ## Lifecycle events
  * Lifecycle events are fired during various stages of navigation.  They can be
@@ -61203,47 +61348,38 @@ var ctrlIds = -1;
  *  | `ionViewDidUnload`  | Runs after the page has been destroyed and its elements have been removed.
  *
  *
- * ## Nav Transition Promises
+ * ## Asynchronous Nav Transitions
  *
- * Navigation transitions are asynchronous, meaning they take a few moments to finish, and
- * the duration of a transition could be any number. In most cases the async nature of a
- * transition doesn't cause any problems and the nav controller is pretty good about handling
- * which transition was the most recent when multiple transitions have been kicked off.
- * However, when an app begins firing off many transitions, on the same stack at
- * *roughly* the same time, the nav controller can start to get lost as to which transition
- * should be finishing, and which transitions should not be animated.
+ * Navigation transitions are asynchronous operations. When a transition is started,
+ * the `push` or `pop` method will return immediately, before the transition is complete.
  *
- * In cases where an app's navigation can be altered by other async tasks, which may or
- * may not take a long time, it's best to rely on each nav transition's returned
- * promise. So instead of firing and forgetting multiple `push` or `pop` nav transitions,
- * it's better to fire the next nav transition when the previous one has finished.
+ * Generally, the developer does not need to be concerned about this. In the event
+ * multiple transitions need to be synchronized or transition timing is critical,
+ * the best practice is to chain the transitions together using the return value
+ * from the `push` and `pop` methods.
  *
- * In the example below, after the async operation has completed, we then want to transition
- * to another page. Where the potential problem comes in, is that if the async operation
- * completed 100ms after the first transition started, then kicking off another transition
- * halfway through the first transition ends up with a janky animation. Instead, it's best
- * to always ensure the first transition has already finished before starting the next.
+ * The `push` and `pop` methods return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+ * Promises are a way to represent and chain together multiple asynchronous
+ * operations in order. Navigation actions can be chained together very easily using promises.
  *
- * ```ts
- * // begin the first transition
- * let navTransition = this.nav.push(SomePage);
- *
- * // start an async call, we're not sure how long it'll take
- * someAsyncOperation().then(() => {
- *   // incase the async operation completed faster than the time
- *   // it took to finish the first transition, this logic should
- *   // always ensure that the previous transition has resolved
- *   // first before kicking off the next transition
- *   navTransition.then(() => {
- *     this.nav.push(AnotherPage);
- *   });
- * });
+ * ```typescript
+ * let navTransitionPromise = this.navController.push(Page2);
+ * navTransitionPromise.then( () => {
+ *   // the transition has completed, so I can push another page now
+ *   return this.navController.push(Page3);
+ * }).then( () => {
+ *   // the second transition has completed, so I can push yet another page
+    return this.navController.push(Page4);
+ * }).then( () => {
+ *   console.log('The transitions are complete!');
+ * })
  * ```
  *
  * ## NavOptions
  *
  * Some methods on `NavController` allow for customizing the current transition.
  * To do this, we can pass an object with the modified properites.
+ *
  *
  * | Property  | Value     | Description                                                                                                |
  * |-----------|-----------|------------------------------------------------------------------------------------------------------------|
@@ -61281,7 +61417,7 @@ exports.DIRECTION_FORWARD = 'forward';
  * @usage
  * ```ts
  * export class MyClass{
- *  constructor(private params: NavParams){
+ *  constructor(public params: NavParams){
  *    // userParams is an object we have in our nav-parameters
  *    this.params.get('userParams');
  *  }
@@ -61307,7 +61443,7 @@ var NavParams = (function () {
      *
      * ```ts
      * export class MyClass{
-     *  constructor(private params: NavParams){
+     *  constructor(public params: NavParams){
      *    // userParams is an object we have in our nav-parameters
      *    this.params.get('userParams');
      *  }
@@ -61426,6 +61562,7 @@ var NavPortal = (function (_super) {
     function NavPortal(app, config, keyboard, elementRef, zone, renderer, compiler, gestureCtrl, viewPort) {
         _super.call(this, null, app, config, keyboard, elementRef, zone, renderer, compiler, gestureCtrl);
         this._isPortal = true;
+        this._init = true;
         this.setViewport(viewPort);
         app.setPortal(this);
         // on every page change make sure the portal has
@@ -61571,21 +61708,17 @@ var view_controller_1 = require('./view-controller');
 /**
  * @name Nav
  * @description
- * _For a quick walkthrough of navigation in Ionic, check out the
- * [Navigation section](../../../../components/#navigation) of the Component
- * docs._
  *
- * Nav is a basic navigation controller component.  As a subclass of NavController
- * you use it to navigate to pages in your app and manipulate the navigation stack.
- * Nav automatically animates transitions between pages for you.
+ * `ion-nav` is the declarative component for a [NavController](../NavController/).
  *
- * For more information on using navigation controllers like Nav or [Tab](../../Tabs/Tab/),
+ * For more information on using nav controllers like Nav or [Tab](../../Tabs/Tab/),
  * take a look at the [NavController API Docs](../NavController/).
  *
+ *
+ * @usage
  * You must set a root page to be loaded initially by any Nav you create, using
  * the 'root' property:
  *
- * @usage
  * ```ts
  * import { Component } from '@angular/core';
  * import { ionicBootstrap } from 'ionic-angular';
@@ -61595,73 +61728,15 @@ var view_controller_1 = require('./view-controller');
  *   template: `<ion-nav [root]="root"></ion-nav>`
  * })
  * class MyApp {
- *   root = GettingStartedPage;
+ *   private root: any = GettingStartedPage;
+ *
+ *   constructor(){
+ *   }
  * }
  *
  * ionicBootstrap(MyApp);
  * ```
  *
- * ### Back Navigation
- *
- * If a [page](../NavController/#creating_pages) you navigate to has a [NavBar](../NavBar/),
- * Nav will automatically add a back button to it if there is a page
- * before the one you are navigating to in the navigation stack.
- *
- * Additionally, specifying the `swipeBackEnabled` property will allow you to
- * swipe to go back:
- * ```html
- * <ion-nav swipeBackEnabled="false" [root]="rootPage"></ion-nav>
- * ```
- *
- * Here is a diagram of how Nav animates smoothly between pages:
- *
- * <div class="highlight less-margin">
- *   <pre>
- *                           +-------+
- *                           |  App  |
- *                           +---+---+
- *                           &lt;ion-app&gt;
- *                               |
- *                  +------------+-------------+
- *                  |   Ionic Nav Controller   |
- *                  +------------+-------------+
- *                           &lt;ion-nav&gt;
- *                               |
- *                               |
- *             Page 3  +--------------------+                     LoginPage
- *           Page 2  +--------------------+ |
- *         Page 1  +--------------------+ | |              +--------------------+
- *                 | | Header           |&lt;-----------------|       Login        |
- *                 +--------------------+ | |              +--------------------+
- *                 | | |                | | |              | Username:          |
- *                 | | |                | | |              | Password:          |
- *                 | | |  Page 3 is     | | |              |                    |
- *                 | | |  only content  | | |              |                    |
- *                 | | |                |&lt;-----------------|                    |
- *                 | | |                | | |              |                    |
- *                 | | |                | | |              |                    |
- *                 | +------------------|-+ |              |                    |
- *                 | | Footer           |-|-+              |                    |
- *                 | +------------------|-+                |                    |
- *                 +--------------------+                  +--------------------+
- *
- *           +--------------------+    +--------------------+    +--------------------+
- *           | Header             |    | Content            |    | Content            |
- *           +--------------------+    |                    |    |                    |
- *           | Content            |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    |                    |    |                    |
- *           |                    |    +--------------------+    |                    |
- *           |                    |    | Footer             |    |                    |
- *           +--------------------+    +--------------------+    +--------------------+
- *
- *   </pre>
- * </div>
  *
  * @demo /docs/v2/demos/navigation/
  * @see {@link /docs/v2/components#navigation Navigation Component Docs}
@@ -61681,9 +61756,15 @@ var Nav = (function (_super) {
             // this Nav has a parent Nav
             parent.registerChildNav(this);
         }
-        else if (app) {
+        else if (viewCtrl && viewCtrl.getNav()) {
+            // this Nav was opened from a modal
+            this.parent = viewCtrl.getNav();
+            this.parent.registerChildNav(this);
+        }
+        else if (app && !app.getRootNav()) {
+            // a root nav has not been registered yet with the app
             // this is the root navcontroller for the entire app
-            this._app.setRootNav(this);
+            app.setRootNav(this);
         }
     }
     Object.defineProperty(Nav.prototype, "_vp", {
@@ -62415,6 +62496,8 @@ var ToolbarBackground = (function () {
  * button. A navbar can contain a `ion-title`, any number of buttons,
  * a segment, or a searchbar. Navbars must be placed within an
  * `<ion-header>` in order for them to be placed above the content.
+ * It's important to note that navbar's are part of the dynamica navigation
+ * stack. If you need a static toolbar, use ion-toolbar.
  *
  * @usage
  * ```html
@@ -62582,29 +62665,29 @@ var util_1 = require('../../util/util');
 /**
  * @name Option
  * @description
- * `ion-option` is a child component of `ion-select`. Similar to the native option element, `ion-option` can take a value and a checked property.
+ * `ion-option` is a child component of `ion-select`. Similar to the native option element, `ion-option` can take a value and a selected property.
  *
- * @demo /docs/v2/demos/item-sliding/
+ * @demo /docs/v2/demos/select/
  */
 var Option = (function () {
     function Option(_elementRef) {
         this._elementRef = _elementRef;
-        this._checked = false;
+        this._selected = false;
         this._disabled = false;
         /**
          * @input {any} Event to evaluate when option is selected
          */
         this.ionSelect = new core_1.EventEmitter();
     }
-    Object.defineProperty(Option.prototype, "checked", {
+    Object.defineProperty(Option.prototype, "selected", {
         /**
-         * @input {boolean} Whether or not the option is already checked and selected
+         * @input {boolean} Whether or not the option is already selected
          */
         get: function () {
-            return this._checked;
+            return this._selected;
         },
         set: function (val) {
-            this._checked = util_1.isTrueProperty(val);
+            this._selected = util_1.isTrueProperty(val);
         },
         enumerable: true,
         configurable: true
@@ -62655,7 +62738,7 @@ var Option = (function () {
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Object)
-    ], Option.prototype, "checked", null);
+    ], Option.prototype, "selected", null);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Object)
@@ -64403,6 +64486,7 @@ var Range = (function () {
         this._dual = false;
         this._disabled = false;
         this._start = null;
+        this._ticks = [];
         this._min = 0;
         this._max = 100;
         this._step = 1;
@@ -66331,7 +66415,7 @@ exports.SELECT_VALUE_ACCESSOR = new core_1.Provider(forms_1.NG_VALUE_ACCESSOR, {
  * <ion-item>
  *   <ion-label>Gender</ion-label>
  *   <ion-select [(ngModel)]="gender">
- *     <ion-option value="f" checked="true">Female</ion-option>
+ *     <ion-option value="f" selected="true">Female</ion-option>
  *     <ion-option value="m">Male</ion-option>
  *   </ion-select>
  * </ion-item>
@@ -66426,13 +66510,13 @@ var Select = (function () {
          */
         this.alertOptions = {};
         /**
-         * @private
-         */
-        this.checked = false;
-        /**
          * @input {string} The interface the select should use: `action-sheet` or `alert`. Default: `alert`.
          */
         this.interface = '';
+        /**
+         * @input {string} The text to display instead of the selected option's value.
+         */
+        this.selectedText = '';
         /**
          * @output {any} Any expression you want to evaluate when the selection has changed.
          */
@@ -66499,7 +66583,7 @@ var Select = (function () {
         if (this.interface === 'action-sheet') {
             alertOptions.buttons = alertOptions.buttons.concat(options.map(function (input) {
                 return {
-                    role: (input.checked ? 'selected' : ''),
+                    role: (input.selected ? 'selected' : ''),
                     text: input.text,
                     handler: function () {
                         _this.onChange(input.value);
@@ -66520,7 +66604,7 @@ var Select = (function () {
                     type: (_this._multi ? 'checkbox' : 'radio'),
                     label: input.text,
                     value: input.value,
-                    checked: input.checked,
+                    checked: input.selected,
                     disabled: input.disabled
                 };
             });
@@ -66583,8 +66667,8 @@ var Select = (function () {
             this._options = val;
             if (!this._values.length) {
                 // there are no values set at this point
-                // so check to see who should be checked
-                this._values = val.filter(function (o) { return o.checked; }).map(function (o) { return o.value; });
+                // so check to see who should be selected
+                this._values = val.filter(function (o) { return o.selected; }).map(function (o) { return o.value; });
             }
             this._updOpts();
         },
@@ -66600,10 +66684,10 @@ var Select = (function () {
         if (this._options) {
             this._options.forEach(function (option) {
                 // check this option if the option's value is in the values array
-                option.checked = _this._values.some(function (selectValue) {
+                option.selected = _this._values.some(function (selectValue) {
                     return util_1.isCheckedProperty(selectValue, option.value);
                 });
-                if (option.checked) {
+                if (option.selected) {
                     _this._texts.push(option.text);
                 }
             });
@@ -66694,12 +66778,12 @@ var Select = (function () {
     ], Select.prototype, "alertOptions", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Object)
-    ], Select.prototype, "checked", void 0);
+        __metadata('design:type', String)
+    ], Select.prototype, "interface", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)
-    ], Select.prototype, "interface", void 0);
+    ], Select.prototype, "selectedText", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
@@ -66736,7 +66820,7 @@ var Select = (function () {
     Select = __decorate([
         core_1.Component({
             selector: 'ion-select',
-            template: "\n    <div *ngIf=\"!_text\" class=\"select-placeholder select-text\">{{placeholder}}</div>\n    <div *ngIf=\"_text\" class=\"select-text\">{{_text}}</div>\n    <div class=\"select-icon\">\n      <div class=\"select-icon-inner\"></div>\n    </div>\n    <button aria-haspopup=\"true\"\n            [id]=\"id\"\n            category=\"item-cover\"\n            [attr.aria-labelledby]=\"_labelId\"\n            [attr.aria-disabled]=\"_disabled\"\n            class=\"item-cover\">\n    </button>\n  ",
+            template: "\n    <div *ngIf=\"!_text\" class=\"select-placeholder select-text\">{{placeholder}}</div>\n    <div *ngIf=\"_text\" class=\"select-text\">{{selectedText || _text}}</div>\n    <div class=\"select-icon\">\n      <div class=\"select-icon-inner\"></div>\n    </div>\n    <button aria-haspopup=\"true\"\n            [id]=\"id\"\n            category=\"item-cover\"\n            [attr.aria-labelledby]=\"_labelId\"\n            [attr.aria-disabled]=\"_disabled\"\n            class=\"item-cover\">\n    </button>\n  ",
             directives: [common_1.NgIf],
             host: {
                 '[class.select-disabled]': '_disabled'
@@ -72095,7 +72179,8 @@ var tabs_1 = require('./tabs');
  * The Tab component, written `<ion-tab>`, is styled based on the mode and should
  * be used in conjunction with the [Tabs](../Tabs/) component.
  *
- * Each tab has a separate navigation controller. For more information on using
+ * Each `ion-tab` is a declarative component for a [NavController](../NavController/).
+ * Basically, each tab is a `NavController`. For more information on using
  * navigation controllers take a look at the [NavController API Docs](../../nav/NavController/).
  *
  * See the [Tabs API Docs](../Tabs/) for more details on configuring Tabs.
@@ -72453,18 +72538,21 @@ var view_controller_1 = require('../nav/view-controller');
  * @description
  * Tabs make it easy to navigate between different pages or functional
  * aspects of an app. The Tabs component, written as `<ion-tabs>`, is
- * a container of individual [Tab](../Tab/) components.
+ * a container of individual [Tab](../Tab/) components. Each individual `ion-tab`
+ * is a declarative component for a [NavController](../NavController/)
+
+ * For more information on using nav controllers like Tab or [Nav](../../nav/Nav/),
+ * take a look at the [NavController API Docs](../NavController/).
  *
  * ### Placement
  *
  * The position of the tabs relative to the content varies based on
- * the mode. By default, the tabs are placed at the bottom of the screen
- * for `ios` mode, and at the top for the `md` and `wp` modes. You can
- * configure the position using the `tabsPlacement` property on the
- * `<ion-tabs>` element, or in your app's [config](../../config/Config/).
+ * the mode. The tabs are placed at the bottom of the screen
+ * for iOS and Android, and at the top for Windows by default. The position can be configured using the `tabsPlacement` attribute
+ * on the `<ion-tabs>` component, or in an app's [config](../../config/Config/).
  * See the [Input Properties](#input-properties) below for the available
  * values of `tabsPlacement`.
- *
+
  * ### Layout
  *
  * The layout for all of the tabs can be defined using the `tabsLayout`
@@ -72605,6 +72693,11 @@ var Tabs = (function (_super) {
         }
         if (this.parent) {
             // this Tabs has a parent Nav
+            this.parent.registerChildNav(this);
+        }
+        else if (viewCtrl && viewCtrl.getNav()) {
+            // this Nav was opened from a modal
+            this.parent = viewCtrl.getNav();
             this.parent.registerChildNav(this);
         }
         else if (this._app) {
@@ -74191,7 +74284,31 @@ var config_1 = require('../../config/config');
 var ion_1 = require('../ion');
 var view_controller_1 = require('../nav/view-controller');
 /**
- * @private
+ * @name Header
+ * @description
+ * Header is a parent compnent that holds the navbar and toolbar component.
+ * It's important to note that `ion-header` needs to be the one of the three root elements of a page
+ *
+ * @usage
+ *
+ * ```ts
+ * @Component({
+ *   template: `
+ *      <ion-header>
+ *        <ion-navbar>
+ *          <ion-title>Page1</ion-title>
+ *        </ion-navbar>
+ *
+ *        <ion-toolbar>
+ *          <ion-title>Subheader</ion-title>
+ *        </ion-toolbar>
+ *      </ion-header>
+ *
+ *      <ion-content></ion-content>
+ *   `
+ * })
+ * ```
+ *
  */
 var Header = (function () {
     function Header(viewCtrl) {
@@ -74208,7 +74325,26 @@ var Header = (function () {
 }());
 exports.Header = Header;
 /**
- * @private
+ * @name Footer
+ * @description
+ * Footer is a root component of a page that sits at the bottom of the page.
+ * Footer can be a wrapper for `ion-toolbar` to make sure the content area is sized correctly.
+ *
+ * @usage
+ *
+ * ```ts
+ * @Component({
+ *   template: `
+ *      <ion-content></ion-content>
+ *      <ion-footer>
+ *        <ion-toolbar>
+ *          <ion-title>Footer</ion-title>
+ *        </ion-toolbar>
+ *      </ion-footer>
+ *   `
+ * })
+ * ```
+ *
  */
 var Footer = (function () {
     function Footer(viewCtrl) {
@@ -74619,6 +74755,9 @@ var virtual_item_1 = require('./virtual-item');
  * makes a HTTP request for the image file. HTTP requests, image
  * decoding, and image rendering can cause issues while scrolling. For virtual
  * scrolling, the natural effects of the `<img>` are not desirable features.
+ *
+ * Note: `<ion-img>` should only be used with Virtual Scroll. If you are using
+ * an image outside of Virtual Scroll you should use the standard `<img>` tag.
  *
  * ```html
  * <ion-list [virtualScroll]="items">
@@ -80301,8 +80440,9 @@ var util_1 = require('../../util/util');
 var DB_NAME = '__ionicstorage';
 var win = window;
 /**
- * SqlStorage uses SQLite or WebSQL (development only!) to store data in a
- * persistent SQL store on the filesystem.
+ * SqlStorage is a wrapper that uses SQLite when running natively (if available)
+ * to store data in a persistent SQL store on the filesystem
+ * or uses WebSQL when serving the app to the browser.
  *
  * This is the preferred storage engine, as data will be stored in appropriate
  * app storage, unlike Local Storage which is treated differently by the OS.
@@ -82514,10 +82654,10 @@ var PointerEvents = (function () {
             return;
         }
         if (!this.rmMouseMove) {
-            this.rmMouseMove = listenEvent(window, 'mousemove', this.zone, this.option, this.pointerMove);
+            this.rmMouseMove = listenEvent(document, 'mousemove', this.zone, this.option, this.pointerMove);
         }
         if (!this.rmMouseUp) {
-            this.rmMouseUp = listenEvent(window, 'mouseup', this.zone, this.option, this.bindMouseUp);
+            this.rmMouseUp = listenEvent(document, 'mouseup', this.zone, this.option, this.bindMouseUp);
         }
     };
     PointerEvents.prototype.handleTouchEnd = function (ev) {

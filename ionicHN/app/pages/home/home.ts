@@ -28,38 +28,43 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    let loading = this.loadCtrl.create({
-      content: 'Getting Stories...'
-    });
+    try {
+      let loading = this.loadCtrl.create({
+        content: 'Getting Stories...'
+      });
 
-    loading.present().then(() => {
-      this.storiesService.getStories()
-        .subscribe(
-        (data: any) => {
-          this.storyIDs = data;
-          this.previousIndex = this.storyIDs.length - 20;
-          for (let i = 0; i < 20; i++) {
-            let id = data[i]
-            this.storiesService.getStory(data[i])
-              .subscribe(
-              (data: any) => {
-                this.stories.push({ data: data, id: id });
-                loading.dismiss();
-                this.storiesRetreived = this.stories;
-                sessionStorage.setItem('loaded', 'true');
-              },
-              error => {
-                loading.dismiss();
-              }
-              )
+      loading.present().then(() => {
+        this.storiesService.getStories()
+          .subscribe(
+          (data: any) => {
+            this.storyIDs = data;
+            this.previousIndex = this.storyIDs.length - 20;
+            for (let i = 0; i < 20; i++) {
+              let id = data[i]
+              this.storiesService.getStory(data[i])
+                .subscribe(
+                (data: any) => {
+                  this.stories.push({ data: data, id: id });
+                  this.storiesRetreived = this.stories;
+                  sessionStorage.setItem('loaded', 'true');
+                },
+                error => {
+                  loading.dismiss();
+                }, () => {
+                  loading.dismiss();
+                }
+                )
+            }
+          },
+          (error: Error) => {
+            console.log(error);
+            loading.dismiss();
           }
-        },
-        (error: Error) => {
-          console.log(error);
-          loading.dismiss();
-        }
-        )
-    })
+          )
+      })
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   private fillStories() {
@@ -115,7 +120,7 @@ export class HomePage {
   }
 
   private share(url: string) {
-    SocialSharing.share('Check out this cool article!', null, null, url);
+    window.open(`http://twitter.com/share?text=Check out this cool article I found on ionicHN!&url=${url}&hashtags=ionicHN`)
   }
 
   private searchItems(event: any) {

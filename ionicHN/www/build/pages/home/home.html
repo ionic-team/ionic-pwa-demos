@@ -14,7 +14,6 @@
   <ion-list>
     <ion-item-sliding #slidingItem *ngFor="let story of stories">
       <button ion-item (click)="open(story.data.url)">
-        <!--<ion-icon (click)="share(story.data.url)" id="shareButton" name="share"></ion-icon>-->
         <div>
           <h2>{{story.data.title}}</h2>
           <h3>Author: {{story.data.by}} on {{story.data.time | unixDate | date}}</h3>
@@ -25,7 +24,10 @@
         <button *ngIf="story.data.kids" id="commentsButton" (click)="getComments(story.data.kids)" primary>
         {{story.data.kids.length}} Comments
       </button>
-    </ion-item-options>
+        <button secondary (click)="share(story.data.url)">
+        <ion-icon id="shareButton" name="share"></ion-icon>
+      </button>
+      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 

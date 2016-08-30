@@ -118,7 +118,7 @@ export class ShowStoriesPage {
   }
 
   private share(url: string) {
-    SocialSharing.share('Check out this cool article!', null, null, url);
+    window.open(`http://twitter.com/share?text=Check out this cool article I found on ionicHN!&url=${url}&hashtags=ionicHN`)
   }
 
   private searchItems(event: any) {

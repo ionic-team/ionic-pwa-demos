@@ -295,23 +295,6 @@ ion-content.js-scroll > scroll-content {
 .nav-decor {
   display: none; }
 
-.css-scrollbars ::-webkit-scrollbar {
-  width: 9px; }
-
-.css-scrollbars ::-webkit-scrollbar-thumb:vertical {
-  min-height: 10px;
-  border: 2px solid transparent;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.4);
-  background-clip: padding-box; }
-
-.css-scrollbars ::-webkit-scrollbar-thumb:vertical:active {
-  min-height: 10px;
-  border: 2px solid transparent;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.6);
-  background-clip: padding-box; }
-
 html {
   font-size: 62.5%; }
 
@@ -4761,7 +4744,8 @@ ion-alert {
   font-weight: normal; }
 
 .alert-message {
-  overflow: auto; }
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; }
 
 .alert-input {
   padding: 10px 0;
@@ -4856,7 +4840,8 @@ ion-alert {
 .alert-checkbox-group {
   overflow: scroll;
   max-height: 240px;
-  border-top: 1px solid #dbdbdf; }
+  border-top: 1px solid #dbdbdf;
+  -webkit-overflow-scrolling: touch; }
 
 .alert-tappable {
   display: -webkit-box;
@@ -8675,7 +8660,8 @@ ion-nav > ion-page > .toolbar.statusbar-padding:first-child,
 ion-nav > ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 ion-tab > ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 ion-tabs > ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
-ion-menu > .toolbar.statusbar-padding:first-child {
+ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
+ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
   padding-top: 20px;
   height: calc(44px + 20px);
   min-height: calc(44px + 20px); }
@@ -8684,7 +8670,8 @@ ion-nav > ion-page > ion-content.statusbar-padding:first-child scroll-content,
 ion-nav > ion-page > ion-header > ion-content.statusbar-padding:first-child scroll-content,
 ion-tab > ion-page > ion-header > ion-content.statusbar-padding:first-child scroll-content,
 ion-tabs > ion-page.tab-subpage > ion-header > ion-content.statusbar-padding:first-child scroll-content,
-ion-menu > ion-content.statusbar-padding:first-child scroll-content {
+ion-menu > .menu-inner > ion-content.statusbar-padding:first-child scroll-content,
+ion-menu > .menu-inner > ion-header > ion-content.statusbar-padding:first-child scroll-content {
   padding-top: 20px; }
 
 ion-nav > ion-page > ion-content.statusbar-padding:first-child[padding] scroll-content,
@@ -8695,8 +8682,10 @@ ion-tab > ion-page > ion-header > ion-content.statusbar-padding:first-child[padd
 ion-tab > ion-page > ion-header > ion-content.statusbar-padding:first-child[padding-top] scroll-content,
 ion-tabs > ion-page.tab-subpage > ion-header > ion-content.statusbar-padding:first-child[padding] scroll-content,
 ion-tabs > ion-page.tab-subpage > ion-header > ion-content.statusbar-padding:first-child[padding-top] scroll-content,
-ion-menu > ion-content.statusbar-padding:first-child[padding] scroll-content,
-ion-menu > ion-content.statusbar-padding:first-child[padding-top] scroll-content {
+ion-menu > .menu-inner > ion-content.statusbar-padding:first-child[padding] scroll-content,
+ion-menu > .menu-inner > ion-content.statusbar-padding:first-child[padding-top] scroll-content,
+ion-menu > .menu-inner > ion-header > ion-content.statusbar-padding:first-child[padding] scroll-content,
+ion-menu > .menu-inner > ion-header > ion-content.statusbar-padding:first-child[padding-top] scroll-content {
   padding-top: calc(16px + 20px); }
 
 ion-nav > ion-page > .toolbar.statusbar-padding:first-child ion-segment,
@@ -8707,8 +8696,10 @@ ion-tab > ion-page > ion-header > .toolbar.statusbar-padding:first-child ion-seg
 ion-tab > ion-page > ion-header > .toolbar.statusbar-padding:first-child ion-title,
 ion-tabs > ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child ion-segment,
 ion-tabs > ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child ion-title,
-ion-menu > .toolbar.statusbar-padding:first-child ion-segment,
-ion-menu > .toolbar.statusbar-padding:first-child ion-title {
+ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child ion-segment,
+ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child ion-title,
+ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child ion-segment,
+ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child ion-title {
   padding-top: 20px;
   height: calc(44px + 20px);
   min-height: calc(44px + 20px); }
@@ -8740,6 +8731,9 @@ body {
 .about #shareButton {
   float: right; }
 
+.about ion-item-sliding {
+  contain: paint layout; }
+
 .home ion-label {
   white-space: normal; }
 
@@ -8751,5 +8745,14 @@ body {
 .home #shareButton {
   float: right; }
 
+.home ion-item-sliding {
+  contain: paint layout; }
+
 .comments ion-label {
   white-space: normal; }
+
+.ask-stories ion-item-sliding {
+  contain: paint layout; }
+
+.show-stories ion-item-sliding {
+  contain: paint layout; }

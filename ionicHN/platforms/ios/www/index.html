@@ -10,14 +10,32 @@
   <link ios-href="build/css/app.ios.css" rel="stylesheet">
   <link md-href="build/css/app.md.css" rel="stylesheet">
   <link wp-href="build/css/app.wp.css" rel="stylesheet">
+  
+  <link rel="apple-touch-icon" href="/custom_icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!--manifest.json-->
+  <link rel="manifest" href="manifest.json">
+
+  <!--theme color-->
+  <meta name="theme-color" content="#FF9800">
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+        navigator
+          .serviceWorker
+          .register('/worker.js')
+          .then(() => console.log('SW installed'))
+          .catch(err => console.log('Error:', err));
+      }
+  </script>
 </head>
 <body class="platform-ios platform-cordova platform-webview">
 
   <!-- this Ionic's root component and where the app will load -->
   <ion-app></ion-app>
 
-  <!-- cordova.js required for cordova apps -->
-  <script src="cordova.js"></script>
+  <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>-->
   <!-- Polyfill needed for platforms without Promise and Collection support -->
   <script src="build/js/es6-shim.min.js"></script>
   <!-- Zone.js and Reflect-metadata  -->

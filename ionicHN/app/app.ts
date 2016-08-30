@@ -8,7 +8,7 @@ import { AboutPage } from './pages/about/about';
 import { AskStoriesPage } from './pages/ask-stories/ask-stories';
 import { ShowStoriesPage } from './pages/show-stories/show-stories';
 
-//enableProdMode();
+enableProdMode();
 
 @Component({
   templateUrl: 'build/app.html'
