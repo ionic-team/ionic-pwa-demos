@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Beerly
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item (click)="openDetail(bar)" *ngFor="let bar of bars">
+      <ion-thumbnail item-left *ngIf="bar.brewery.images">
+        <img [src]="bar.brewery.images.squareMedium">
+      </ion-thumbnail>
+      <ion-thumbnail item-left *ngIf="!bar.brewery.images">
+        <img src="http://lorempixel.com/400/400/nightlife">
+      </ion-thumbnail>
+      <h2>{{bar.brewery.name}}</h2>
+      <h3>{{bar.streetAddress}}</h3>
+      <p *ngIf="bar.brewery.description">{{bar.brewery.description}}</p>
+      <p *ngIf="!bar.brewery.description">
+        No description available
+      </p>
+    </button>
+  </ion-list>
+</ion-content>
