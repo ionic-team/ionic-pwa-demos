@@ -1,0 +1,54 @@
+{
+  "name": "ionic-conference-app",
+  "description": "Ionic Conference App",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/driftyco/ionic-conference-app.git"
+  },
+  "scripts": {
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve"
+  },
+  "dependencies": {
+    "@angular/common": "2.1.1",
+    "@angular/compiler": "2.1.1",
+    "@angular/compiler-cli": "2.1.1",
+    "@angular/core": "2.1.1",
+    "@angular/forms": "2.1.1",
+    "@angular/http": "2.1.1",
+    "@angular/platform-browser": "2.1.1",
+    "@angular/platform-browser-dynamic": "2.1.1",
+    "@angular/platform-server": "2.1.1",
+    "@ionic/storage": "1.1.6",
+    "ionic-angular": "2.0.0-rc.2",
+    "ionic-native": "2.2.3",
+    "ionicons": "3.0.0",
+    "moment": "2.15.1",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "0.6.21"
+  },
+  "devDependencies": {
+    "@ionic/app-scripts": "0.0.42",
+    "typescript": "^2.0.3"
+  },
+  "config": {
+    "ionic_bundler": "webpack"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-whitelist",
+    {
+      "locator": "https://github.com/VersoSolutions/CordovaClipboard",
+      "id": "com.verso.cordova.clipboard"
+    },
+    {
+      "locator": "https://github.com/apache/cordova-plugin-splashscreen.git",
+      "id": "cordova-plugin-splashscreen"
+    },
+    "cordova-plugin-crosswalk-webview"
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android"
+  ]
+}
