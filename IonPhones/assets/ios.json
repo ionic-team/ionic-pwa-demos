@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Iphone 7",
+    "price": 649.99,
+    "ram": "2GB",
+    "cpu": "Apple A10 Fusion",
+    "OS": "iOS 10",
+    "img": "./assets/iphone.jpg"
+  },
+  {
+    "name": "Iphone 7 plus",
+    "price": 769.99,
+    "ram": "2GB",
+    "cpu": "Apple A10 Fusion",
+    "OS": "iOS 10",
+    "img": "./assets/iphone.jpg"
+  },
+  {
+    "name": "iPad Pro",
+    "price": 799.99,
+    "ram": "4GB",
+    "cpu": "Apple A9X",
+    "OS": "iOS 10",
+    "img": "./assets/ipadPro.jpg"
+  },
+  {
+    "name": "iPad Air 2",
+    "price": 399.99,
+    "ram": "2GB",
+    "cpu": "Apple A8X",
+    "OS": "iOS 10",
+    "img": "./assets/ipadAir2.jpeg"
+  },
+  {
+    "name": "iPad Mini 4",
+    "price": 399.99,
+    "ram": "2GB",
+    "cpu": "Apple A8",
+    "OS": "iOS 10",
+    "img": "./assets/ipadMini.jpg"
+  },
+  {
+    "name": "iPhone 6s",
+    "price": 649.99,
+    "ram": "2GB",
+    "cpu": "Apple A9",
+    "OS": "iOS 10",
+    "img": "./assets/iphone.jpg"
+  },
+  {
+    "name": "iPhone 6s plus",
+    "price": 769.99,
+    "ram": "2GB",
+    "cpu": "Apple A9",
+    "OS": "iOS 10",
+    "img": "./assets/iphone.jpg"
+  },
+  {
+    "name": "iPhone 6",
+    "price": 649.99,
+    "ram": "1GB",
+    "cpu": "Apple A8",
+    "OS": "iOS 10",
+    "img": "./assets/iphone.jpg"
+  },
+  {
+    "name": "iPhone 6 plus",
+    "price": 769.99,
+    "ram": "1GB",
+    "cpu": "Apple A8",
+    "OS": "iOS 10",
+    "img": "./assets/iphone.jpg"
+  }
+]
